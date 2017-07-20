@@ -1,0 +1,177 @@
+/**
+ * Sample access control list.
+ */
+rule bankCanReadOtherCustomers{
+    description: "Allow a bank to read all the customers"
+    participant: "org.acme.sample.Bank"
+    operation: ALL
+    resource: "org.acme.sample.Customer"
+  	action: ALLOW
+}
+
+rule bankCanCUDItsCutomers {
+    description: "Allow a bank to Create, Update, Delete it's own customers"
+    participant(p): "org.acme.sample.Bank"
+    operation: ALL
+    resource(r): "org.acme.sample.Customer"
+  	condition: (p.getIdentifier() == r.bank.getIdentifier())
+    action: ALLOW
+}
+
+rule bankCanCRUItsAssets {
+    description: "Allow a bank to Create,Read,Update it's own loanAssets"
+    participant: "org.acme.sample.Bank"
+    operation: ALL
+    resource: "org.acme.sample.loanAsset"
+    action: ALLOW
+}
+
+rule bankCanNotControlItsRealeasedAsset {
+    description: "Once a loan has been repaid, the bank can no longer see the asset"
+    participant: "org.acme.sample.Bank"
+    operation: ALL
+    resource(r): "org.acme.sample.loanAsset"
+  	condition: (r.value == 0)
+    action: DENY
+  
+}
+rule bankCanCreateItsCutomersViaTransaction {
+    description: "Allow a bank to create it's own customers"
+    participant(p): "org.acme.sample.Bank"
+    operation: CREATE
+    resource(r): "org.acme.sample.createCustomer"
+  	condition: (p.getIdentifier() == r.newCustomer.bank.getIdentifier())
+    action: ALLOW
+}
+
+rule bankCanInvokeReadCustomer {
+    description: "Allow a bank to invoke readCustomer transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.readCustomer"
+    action: ALLOW 
+}
+
+rule bankCanInvokeUpdateCustomer {
+ 	description: "Allow a bank to invoke updateCustomer transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.updateCustomer"
+    action: ALLOW 
+}
+
+rule bankCanInvokeDeleteCustomer {
+ 	description: "Allow a bank to invoke deleteCustomer transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.deleteCustomer"
+    action: ALLOW 
+}
+
+rule bankCanInvokeReadAsset {
+ 	description: "Allow a bank to invoke readAsset transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.readAsset"
+    action: ALLOW   
+}
+
+rule bankCanInvokeCreateAsset {
+ 	description: "Allow a bank to invoke createAsset transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.createAsset"
+    action: ALLOW 
+  
+}
+
+rule bankCanInvokeUpdateAsset {
+ 	description: "Allow a bank to invoke readAsset transaction"
+    participant: "org.acme.sample.Bank"
+    operation: CREATE
+    resource: "org.acme.sample.updateAsset"
+    action: ALLOW   
+}
+
+rule BankCanReadOtherBanks {
+    description: "Allow all the banks to read each other"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.Bank"
+  	action: ALLOW   
+  
+}
+
+rule bankCanreadAllAssets {
+    description: "Allow a bank to read all the loanAssets"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.loanAsset"
+  	action: ALLOW   
+  
+}
+
+rule allBanksCanViewCreateCustomerTransactions {
+    description: "Allow all banks to read  createCustomer Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.createCustomer"
+  	action: ALLOW    
+}
+
+rule allBanksCanViewReadCustomerTransactions {
+    description: "Allow all banks to read readCustomer Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.readCustomer"
+  	action: ALLOW    
+}
+
+rule allBanksCanViewUpdateCustomerTransactions {
+    description: "Allow all banks to read updateCustomer Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.updateCustomer"
+  	action: ALLOW    
+}
+
+rule allBanksCanViewDeleteCustomerTransactions {
+    description: "Allow all banks to read deleteCustomer Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.deleteCustomer"
+  	action: ALLOW    
+}
+
+rule allBanksCanViewCreateAssetTransactions {
+    description: "Allow all banks to read createAsset Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.createAsset"
+  	action: ALLOW    
+}
+
+
+rule allBanksCanViewReadAssetTransactions {
+    description: "Allow all banks to read readAsset Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.readAsset"
+  	action: ALLOW    
+}
+rule allBanksCanViewUpdateAssetTransactions {
+    description: "Allow all banks to read updateAsset Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.updateAsset"
+  	action: ALLOW    
+}
+
+rule allBanksCanViewDeleteAssetTransactions {
+    description: "Allow all banks to read deleteAsset Transactions"
+    participant: "org.acme.sample.Bank"
+    operation: READ
+    resource: "org.acme.sample.deleteAsset"
+  	action: ALLOW    
+}
+

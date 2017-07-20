@@ -1,0 +1,121 @@
+/**
+ * Sample business network definition.
+ */
+namespace org.acme.sample
+
+/**
+ * enum declarations
+ */
+
+enum AccountType {
+  o SAVINGS
+  o CURRENT
+}
+
+enum loanAssetType {
+  o PROPERTY
+  o STOCKS
+  o JEWELLERY
+  o VEHICLE
+}
+
+enum assetState {
+ o RELEASED
+ o CONTROLLED_BY_BANK
+}
+
+
+
+/**
+ * participant declarations
+ */
+
+participant Bank identified by bankId {
+  o String bankId
+  o String name
+  o String code
+}
+
+
+/**
+ *  asset declarations
+ */
+
+
+asset Customer identified by aadhaarId {
+    o String aadhaarId
+    o String panId
+    o String firstName
+    o String lastName
+    o String contactNo
+    o String residence
+    o String accountNumber
+  	o AccountType accountType
+    o String creationDate  
+    --> Bank bank
+}
+
+
+asset loanAsset identified by loanAssetId {
+	o String loanAssetId
+  	--> Customer owner
+    --> Bank bank
+    o loanAssetType assetType optional
+  	o assetState state
+    o String value
+	
+}
+
+
+/**
+ * transactions
+ */
+
+
+transaction createCustomer  {
+  	o Customer newCustomer 
+}
+
+
+transaction readCustomer{
+ 	--> Customer customer
+}
+
+
+
+transaction updateCustomer {
+    --> Customer customer
+  	o Customer newDetails
+}
+
+transaction deleteCustomer {
+    --> Customer customer
+}
+
+
+transaction createAsset {
+
+  	o loanAsset  newLoanAsset
+}
+
+
+transaction readAsset  {
+ 	
+    --> loanAsset assetName
+ 	
+}
+
+
+
+transaction updateAsset  {
+ 		
+    --> loanAsset oldloanAsset
+  	o loanAsset newloanAsset
+}
+
+transaction deleteAsset  {
+ 	
+    --> loanAsset assetName
+}
+
+
